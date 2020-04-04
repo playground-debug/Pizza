@@ -1,0 +1,85 @@
+{% extends 'orders/base.html' %}
+{% block body %}
+<br><br><br>
+<div class="container text-center">
+	{% if orderspro %}
+	<h2 class="text-info text-center">In progress</h2>
+	<hr>
+	<br>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+				{% for order in orderspro %}
+				<div class="col-md-12">
+					<div class="card mb-4 shadow-sm">
+
+						<div class="card-body bg-warning">
+							<p class="card-text" align="center">
+								Order ID: #{{order.id}} <br>
+								By: {{order.orderedby}}  ({{order.time}})
+								<br>
+								{{order.detail}}
+								<br>
+								Total Price: {{order.totalprice}}
+								<br>
+								Status: {{order.status}}
+							</p>
+							<div class="btn-group">
+								{% if user.is_superuser %}
+								<form action="{% url 'complete' order.id %}" method="post">
+									{% csrf_token %}
+									<a>
+										<button type="submit" class="btn btn-sm btn-outline-success">Complete</button>
+									</a>
+								</form>
+								{% endif %}
+							</div>
+						</div>
+
+					</div>
+				</div>
+				{% endfor %}
+				<br><br>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if orderscom %}
+	<h2 class="text-info text-center">Completed</h2>
+	<hr>
+	<br>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+				{% for order in orderscom %}
+				<div class="col-md-12">
+					<div class="card mb-4 shadow-sm">
+						<div class="card-body bg-success">
+							<p class="card-text" align="center">
+								By: {{order.orderedby}}  ({{order.time}})
+								<br>
+								{{order.detail}}
+								<br>
+								Total Price: {{order.totalprice}}
+								<br>
+								Status: {{order.status}}
+							</p>
+							<br><br>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				<br><br>
+			</div>
+		</div>
+	</div>
+
+	{% else %}
+	<h4>No Order Completed!</h4>
+	<a href="{% url 'menu' %}">
+		<button class="btn btn-outline-success my-2 my-sm-0">Add Item</button>
+	</a>
+	{% endif %}
+</div>
+{% endblock %}

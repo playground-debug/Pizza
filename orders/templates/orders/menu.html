@@ -1,0 +1,166 @@
+{% extends 'orders/base.html' %}
+
+{% block body %}
+<br><br><br>
+<div class="container text-center">
+	<h2 class="text-info text-center">Menu</h2>
+	<hr>
+	<br>
+	<!-- Pizzas -->
+	<h3 class="display-4">Pizza</h3>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+
+				{% for regular in Regular_Pizzas %}
+				<div class="col-md-4">
+					<div class="card mb-4 shadow-sm">
+						<div class="card-body">
+							<p class="card-text" align="center">
+								{{ regular.name }}
+							</p>
+							<div class="btn-group">
+								{% if regular.name == "Cheese" or regular.name == "Special" %}
+								<a href="{% url 'customise0' regular.name %}">
+									<button type="button" class="btn btn-sm btn-outline-secondary">Customise</button>
+								</a>
+								{% else %}
+								<a href="{% url 'customise1' regular.name %}">
+									<button type="button" class="btn btn-sm btn-outline-secondary">Customise</button>
+								</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+<!-- Subs -->
+
+	<br><br>
+
+
+	<h3 class="display-4">Sub</h3>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+
+				{% for sub in Subs %}
+				<div class="col-md-4">
+					<div class="card mb-4 shadow-sm">
+						<div class="card-body">
+							<p class="card-text" align="center">
+								{{ sub.name }}
+							</p>
+							<div class="btn-group">
+								<a href="{% url 'customise2' sub.name %}">
+									<button type="button" class="btn btn-sm btn-outline-secondary">Customise</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Pastas -->
+
+	<br><br>
+
+
+	<h3 class="display-4">Pasta</h3>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+
+				{% for pasta in Pastas %}
+				<div class="col-md-4">
+					<div class="card mb-4 shadow-sm">
+						<div class="card-body">
+							<p class="card-text" align="center">
+								{{ pasta.name }}
+							</p>
+							<div class="btn-group">
+								<a href="{% url 'customise3' pasta.name %}">
+									<button type="button" class="btn btn-sm btn-outline-secondary">Customise</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Salads -->
+
+	<br><br>
+
+
+	<h3 class="display-4">Salad</h3>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+
+				{% for salad in Salads %}
+				<div class="col-md-4">
+					<div class="card mb-4 shadow-sm">
+						<div class="card-body">
+							<p class="card-text" align="center">
+								{{ salad.name }}
+							</p>
+							<div class="btn-group">
+								<a href="{% url 'customise3' salad.name %}">
+									<button type="button" class="btn btn-sm btn-outline-secondary">Customise</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Dinner Platters -->
+
+	<br><br>
+
+
+	<h3 class="display-4">Dinner Platter</h3>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+
+				{% for dinner in Dinner_Platters %}
+				<div class="col-md-4">
+					<div class="card mb-4 shadow-sm">
+						<div class="card-body">
+							<p class="card-text" align="center">
+								{{ dinner.name }}
+							</p>
+							<div class="btn-group">
+								<a href="{% url 'customise2' dinner.name %}">
+									<button type="button" class="btn btn-sm btn-outline-secondary">Customise</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

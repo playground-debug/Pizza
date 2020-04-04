@@ -1,0 +1,85 @@
+{% extends 'orders/base.html' %}
+{% load static %}
+
+{% block script %}
+
+<script>
+
+	function decrease() {
+		let q = document.querySelector('#quantity').value
+		if (q==1)
+			return false;
+		q--;
+		document.querySelector('#quantity').value = q;
+		return false;
+	}
+
+	function increase() {
+		let q = document.querySelector('#quantity').value
+		q++;
+		document.querySelector('#quantity').value = q;
+		return false;
+	}
+
+	function calculateTotal() {
+		if (document.querySelector('#typeof').value == "regular") {
+			if (document.querySelector('#size').value == "small")
+				document.querySelector('#total').value = document.querySelector('#small').dataset.pricer;
+			else
+				document.querySelector('#total').value = document.querySelector('#large').dataset.pricer;
+		}
+		if (document.querySelector('#typeof').value == "sicilian") {
+			if (document.querySelector('#size').value == "small")
+				document.querySelector('#total').value = document.querySelector('#small').dataset.prices;
+			else
+				document.querySelector('#total').value = document.querySelector('#large').dataset.prices;
+		}
+
+		var quantity = document.querySelector('#quantity').value;
+		var t = document.querySelector('#total').value * quantity;
+		var total = t.toFixed(2);
+		document.querySelector('#total').value = total;
+
+	}
+</script>
+
+{% endblock %}
+
+{% block body %}
+<br><br><br>
+<div class="container text-center">
+	<h2>{{regular}} Pizza</h2>
+	<hr>
+	<br>
+	<form id="form" action="{% url 'menu' %}" method="POST">
+		{% csrf_token %}
+		<div class="form-group">
+			<input type="hidden" name="name" value="{{regular.name}}">
+			<label for="exampleFormControlSelect1">Pizza Type</label>
+			<select class="form-control" id="typeof" name="typeof" onchange="calculateTotal()">
+				<option value="regular">Regular</option>
+				<option value="sicilian">Sicilian</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="exampleFormControlSelect2">Pizza Size</label>
+			<select class="form-control" id="size" name="size" onchange="calculateTotal()">
+				<option id="small" value="small" data-pricer="{{regular.small}}" data-prices="{{sicilian.small}}">small</option>
+				<option id="large" value="large"data-pricer="{{regular.large}}" data-prices="{{sicilian.large}}">large</option>
+			</select>
+		</div>
+		<div class="form-group" onclick="calculateTotal()">
+			<label for="exampleFormControlSelect2">Quantity:</label> &nbsp
+			<button id="minus" class="rounded-circle" onclick="decrease()" type="button"><img src="{% static 'orders/minus.png' %}" height="25px"></button>
+			<input name="quantity" id="quantity" value="1" readonly>
+			<button id="plus" class="rounded-circle" onclick="increase()" type="button"><img src="{% static 'orders/plus.png' %}" height="25px"></button>
+		</div>
+		<p>Total Price: &nbsp $ <input name="total" id="total" readonly value="{{regular.small}}"></p>
+		<input type="hidden" name="status" value="Cart">
+		<input type="hidden" name="topping1" value="">
+		<input type="hidden" name="topping2" value="">
+		<input type="hidden" name="topping3" value="">
+		<button type="submit" class="btn btn-outline-success">Add to Cart</button>
+	</form>
+</div>
+{% endblock %}

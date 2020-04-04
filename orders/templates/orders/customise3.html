@@ -1,0 +1,96 @@
+{% extends 'orders/base.html' %}
+{% load static %}
+
+{% block script %}
+
+<script>
+
+	function decrease() {
+		let q = document.querySelector('#quantity').value
+		if (q==1)
+			return false;
+		q--;
+		document.querySelector('#quantity').value = q;
+		return false;
+	}
+
+	function increase() {
+		let q = document.querySelector('#quantity').value
+		q++;
+		document.querySelector('#quantity').value = q;
+		return false;
+	}
+
+
+	function calculateTotal() {
+		var quantity = document.querySelector('#quantity').value;
+		var t = document.querySelector('#single').value * quantity;
+		var total = t.toFixed(2);
+		document.querySelector('#total').value = total;
+	}
+</script>
+
+{% endblock %}
+
+{% block body %}
+<br><br><br>
+{%if pasta%}
+<div class="container text-center">
+	<h2>{{pasta.name}}</h2>
+	<hr>
+	<br>
+	<form id="form" action="{% url 'menu' %}" method="POST">
+		{% csrf_token %}
+			<input type="hidden" name="name" value="{{pasta.name}}">
+			<input type="hidden" name="size" value="">
+
+			<input type="hidden" name="typeof" value="">
+
+		<div class="form-group" onclick="calculateTotal()">
+			<label for="exampleFormControlSelect2">Quantity:</label> &nbsp
+			<button id="minus" class="rounded-circle" onclick="decrease()" type="button"><img src="{% static 'orders/minus.png' %}" height="25px"></button>
+			<input name="quantity" id="quantity" value="1" readonly>
+			<button id="plus" class="rounded-circle" onclick="increase()" type="button"><img src="{% static 'orders/plus.png' %}" height="25px"></button>
+		</div>
+		<p>Total Price: &nbsp $ <input name="total" id="total" readonly value="{{pasta.price}}"></p>
+		<input type="hidden" name="status" value="Cart">
+		<input type="hidden" name="topping1" value="">
+		<input type="hidden" name="topping2" value="">
+		<input type="hidden" name="topping3" value="">
+		<button type="submit" class="btn btn-outline-success">Add to Cart</button>
+		<input type="hidden" value="{{pasta.price}}" id="single">
+	</form>
+</div>
+{%endif%}
+
+
+<!-- for dinner_platters -->
+{%if salad%}
+<div class="container text-center">
+	<h2>{{salad.name}}</h2>
+	<hr>
+	<br>
+	<form id="form" action="{% url 'menu' %}" method="POST">
+		{% csrf_token %}
+			<input type="hidden" name="name" value="{{salad.name}}">
+			<input type="hidden" name="size" value="">
+
+			<input type="hidden" name="typeof" value="">
+
+		<div class="form-group" onclick="calculateTotal()">
+			<label for="exampleFormControlSelect2">Quantity:</label> &nbsp
+			<button id="minus" class="rounded-circle" onclick="decrease()" type="button"><img src="{% static 'orders/minus.png' %}" height="25px"></button>
+			<input name="quantity" id="quantity" value="1" readonly>
+			<button id="plus" class="rounded-circle" onclick="increase()" type="button"><img src="{% static 'orders/plus.png' %}" height="25px"></button>
+		</div>
+		<p>Total Price: &nbsp $ <input name="total" id="total" readonly value="{{salad.price}}"></p>
+		<input type="hidden" name="status" value="Cart">
+		<input type="hidden" name="topping1" value="">
+		<input type="hidden" name="topping2" value="">
+		<input type="hidden" name="topping3" value="">
+		<button type="submit" class="btn btn-outline-success">Add to Cart</button>
+		<input type="hidden" value="{{salad.price}}" id="single">
+	</form>
+</div>
+{%endif%}
+{% endblock %}

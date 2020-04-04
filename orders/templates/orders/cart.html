@@ -1,0 +1,80 @@
+{% extends 'orders/base.html' %}
+{% block body %}
+<br><br><br>
+<div class="container text-center">
+	{% if orders %}
+
+	<h2 class="text-info text-center">Cart</h2>
+	<hr>
+	<br>
+	<div class="album py-5">
+		<div class="container">
+			<div class="row">
+
+				{% for order in orders %}
+				<div class="col-md-4">
+					<div class="card mb-4 shadow-sm">
+						<div class="card-body">
+							<p class="card-text" align="center">
+								{{ order.name }}
+
+								{% if order.typeof %}
+								{{ order.typeof }}
+								{% endif %}
+
+								{% if order.size %}
+								{{ order.size }}
+								{% endif %}
+
+								{% if order.topping1 %}
+								{{ order.topping1 }}
+								{% endif %}
+
+								{% if order.topping2 %}
+								{{ order.topping2 }}
+								{% endif %}
+
+								{% if order.topping3 %}
+								{{ order.topping3 }}
+								{% endif %}
+
+								<br>
+								Quantity: {{ order.quantity }}
+
+								<br>
+								Price: ${{order.total}}
+
+							</p>
+							<div class="btn-group">
+								<form action="{% url 'discard' order.id %}" method="post">
+									{% csrf_token %}
+									<a>
+										<button type="submit" class="btn btn-sm btn-outline-danger">Discard</button>
+									</a>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	<p>Cart Total: $ {{total_cost}}</p>
+	<form action="{% url 'placeorder' %}" method="post">
+		{% csrf_token %}
+		<a href="{% url 'placeorder' %}">
+			<button type="submit" class="btn btn-sm btn-outline-success">Place Order</button>
+		</a>
+	</form>
+
+	{% else %}
+	<h4>Nothing in Cart!</h4>
+	<a href="{% url 'menu' %}">
+		<button class="btn btn-outline-success my-2 my-sm-0">Add Item</button>
+	</a>
+	{% endif %}
+</div>
+{% endblock %}
